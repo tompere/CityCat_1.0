@@ -116,19 +116,21 @@ public class PostEvent extends Activity {
 				ParseGeoPoint point = new ParseGeoPoint(userLat, userLng);
 
 				ParseObject eventParseObject = new ParseObject("Event");
-				
+
 				// safe fields - no need to validate input
 				eventParseObject.put("city",userCity);
 				eventParseObject.put("type",eventType.getSelectedItem().toString());
 				eventParseObject.put("category",eventCategory.getSelectedItem().toString());
 				eventParseObject.put("gps",point);
-				
+
 				// name
-				if (eventName.getText().toString().trim() != "") eventParseObject.put("name",eventName.getText().toString());
+				String tempEventName = eventName.getText().toString().trim();
+				if ( tempEventName != "" ) eventParseObject.put("name",tempEventName);
 				else vaildInput = false;
 
 				// description
-				if (eventDescription.getText().toString().trim() != "") eventParseObject.put("description",eventDescription.getText().toString());
+				String tempDescription = eventDescription.getText().toString().trim();
+				if ( tempDescription != "" ) eventParseObject.put("description",tempDescription);
 				else vaildInput = false;
 
 				// date and time
@@ -142,41 +144,43 @@ public class PostEvent extends Activity {
 						public void done(ParseException e) {			    	
 							// success
 							if (e == null) {
-								postedSuccessfully();
+								showNeutraAlertDialog(postEventContext, "Post Event", "Success!\nYou've posted an event", goToMain);
 
 							} // failure to save object in parse.com
 							else {
-								postFailed();
+								showNeutraAlertDialog(postEventContext, "Post Event", "Ooops! Something went wrong.\nplease try again.", null);
 							}
 						}			   
 					});						
 				}
-				
+
 				else
 				{
-					invalidInput();
+					showNeutraAlertDialog(postEventContext, "Post Event", "Ooops! Events details are invalid.\nPlease Try again.", null);
 				}
 			}
 		}
 	}
 
-	/* handle case where an event was posted successfully */
-	public void postedSuccessfully()
+	/* generic function to handle AlertDialog */
+	public void showNeutraAlertDialog(Context context, String title, String msg, Intent goToActivity)
 	{
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		final Intent whatTodo = goToActivity;
+
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
 		// set title
-		alertDialogBuilder.setTitle("Post An Event");
+		alertDialogBuilder.setTitle(title);
 
 		// set dialog message
 		alertDialogBuilder
-		.setMessage("Success! You've posted an event")
+		//.setMessage("Ooops! One of the events details are invalid. Please Try again.")
+		.setMessage(msg)
 		.setCancelable(false)
 		.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog,int id) {
-				// if this button is clicked, close
-				// current activity
-				startActivity(goToMain);
+			public void onClick(DialogInterface dialog,int id) {				
+				if (whatTodo == null) dialog.cancel(); //cancel dialog
+				else startActivity(whatTodo); //go to chosen activity
 			}
 		});
 
@@ -187,57 +191,6 @@ public class PostEvent extends Activity {
 		alertDialog.show();
 	}
 
-	/* handle case where an event was NOT posted successfully */
-	public void postFailed()
-	{
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-		// set title
-		alertDialogBuilder.setTitle("Post An Event");
-
-		// set dialog message
-		alertDialogBuilder
-		.setMessage("Ooops! Something went wrong. please try posting the event again.")
-		.setCancelable(false)
-		.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog,int id) {
-				// if this button is clicked, close
-				// current activity
-				dialog.cancel();
-			}
-		});
-
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
-
-		// show it
-		alertDialog.show();
-	}
-	
-	/* handle case where an event was NOT posted successfully */
-	public void invalidInput()
-	{
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-		// set title
-		alertDialogBuilder.setTitle("Post An Event");
-
-		// set dialog message
-		alertDialogBuilder
-		.setMessage("Ooops! One of the events details are invalid. Please Try again.")
-		.setCancelable(false)
-		.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog,int id) {
-				dialog.cancel();
-			}
-		});
-
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
-
-		// show it
-		alertDialog.show();
-	}
 
 
 }

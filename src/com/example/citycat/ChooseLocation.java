@@ -3,7 +3,9 @@ package com.example.citycat;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -13,6 +15,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,6 +31,7 @@ public class ChooseLocation extends Activity {
 	GoogleMap googleMap;
 	Intent goToPostEvent;
 	Button btnSumbit;
+	ImageButton refresh;
 	LatLng userLocation;
 	Context chooseLocationContext;
 	String city;
@@ -44,8 +48,11 @@ public class ChooseLocation extends Activity {
 		chooseLocationContext = this;
 
 		btnSumbit = (Button)this.findViewById(R.id.btn_sumbit_location);
+		refresh = (ImageButton)this.findViewById(R.id.refresh_button);
+		
 		ClickHandler clickHandler = new ClickHandler();
 		btnSumbit.setOnClickListener(clickHandler);
+		refresh.setOnClickListener(clickHandler);
 		
 		goToPostEvent = new Intent(this, PostEvent.class);
 		
@@ -67,21 +74,25 @@ public class ChooseLocation extends Activity {
 
 		// get current user location based on GPS or network connection
 		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-		gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
+		
 		final boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		final boolean networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
+		
 		// make sure there's an available way to get position 
 		if (!gpsEnabled && !networkEnabled) {
 			enableLocationSettings();
 		}
 		else {		
 			// get position according to GPS
-			if (gpsEnabled) userLocation = new LatLng(gpsLocation.getLatitude(), gpsLocation.getLongitude());			
+			if (gpsEnabled) {
+				gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+				userLocation = new LatLng(gpsLocation.getLatitude(), gpsLocation.getLongitude());			
+			}
 			// get location according to network
-			else userLocation = new LatLng(networkLocation.getLatitude(), networkLocation.getLongitude());
+			else {
+				networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+				userLocation = new LatLng(networkLocation.getLatitude(), networkLocation.getLongitude());
+			}
 			currentMarker = addMarkerToMap(userLocation);
 		}
 		
@@ -144,6 +155,12 @@ public class ChooseLocation extends Activity {
 	class ClickHandler implements View.OnClickListener {
 		public void onClick(View v)
 		{
+			if ((ImageButton)v == refresh)
+			{
+				// TODO - not working...
+				onRestart();
+			}
+			
 			if ((Button)v == btnSumbit)
 			{				
 				goToPostEvent.removeExtra("lat");
@@ -165,4 +182,43 @@ public class ChooseLocation extends Activity {
 			currentMarker = addMarkerToMap(point);
 		}
 	}
+	
+	/* generic function to handle AlertDialog */
+	public void showNeutraAlertDialog(Context context, String title, String msg, Intent goToActivity)
+	{
+		final Intent whatTodo = goToActivity;
+
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+
+		// set title
+		alertDialogBuilder.setTitle(title);
+
+		// set dialog message
+		alertDialogBuilder
+		.setMessage(msg)
+		.setCancelable(false)
+		.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {				
+				if (whatTodo == null) dialog.cancel(); //cancel dialog
+				else startActivity(whatTodo); //go to chosen activity
+			}
+		});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();
+	}
+	
+	@Override
+	protected void onRestart() {
+
+	    super.onRestart();
+	    Intent i = new Intent(this, ChooseLocation.class);  //your class
+	    startActivity(i);
+	    finish();
+
+	}
+
 }
