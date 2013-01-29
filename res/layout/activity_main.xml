@@ -3,15 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_main" >
-
-      
-    <Button
+    
+     <Button
         android:id="@+id/location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/hotEvents"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="60dp"
+        android:layout_marginTop="32dp"
         android:text="Post An Event" />
+
+    <TextView
+        android:id="@+id/hotEvents"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:scrollbars="vertical"
+        android:text="Scrolling Events" />
 
 </RelativeLayout>

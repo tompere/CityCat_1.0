@@ -248,7 +248,7 @@
 	        android:clickable="false"
 	        android:orientation="horizontal"
 	        android:paddingBottom="10dp" >
-
+
 	        <EditText
 	            android:id="@+id/event_description"
 	            android:layout_width="180dp"
@@ -257,7 +257,7 @@
 	            android:layout_marginRight="10dp"
 	            android:layout_weight="1"
 	            android:ems="10"
-	            android:inputType="textMultiLine|none"
+	            android:inputType="textMultiLine|textLongMessage"
 	            android:paddingLeft="20dp"
 	            android:paddingRight="20dp" />
 
