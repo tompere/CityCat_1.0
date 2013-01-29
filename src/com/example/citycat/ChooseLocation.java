@@ -12,6 +12,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +31,7 @@ public class ChooseLocation extends Activity {
 	MapView mapView;
 	GoogleMap googleMap;
 	Intent goToPostEvent;
-	Button btnSumbit;
+	ImageButton btnSumbit;
 	ImageButton refresh;
 	LatLng userLocation;
 	Context chooseLocationContext;
@@ -47,7 +48,7 @@ public class ChooseLocation extends Activity {
 
 		chooseLocationContext = this;
 
-		btnSumbit = (Button)this.findViewById(R.id.btn_sumbit_location);
+		btnSumbit = (ImageButton)this.findViewById(R.id.btn_sumbit_location);
 		refresh = (ImageButton)this.findViewById(R.id.refresh_button);
 		
 		ClickHandler clickHandler = new ClickHandler();
@@ -55,22 +56,6 @@ public class ChooseLocation extends Activity {
 		refresh.setOnClickListener(clickHandler);
 		
 		goToPostEvent = new Intent(this, PostEvent.class);
-		
-		// Google map initialization */
-		mapView = (MapView)findViewById(R.id.map);
-		mapView.onCreate(savedInstanceState);
-		googleMap = mapView.getMap();   
-		
-		// zoom in
-		try {
-			googleMap.animateCamera(CameraUpdateFactory.zoomTo(new Float(3.0))); 
-		}
-		catch (Exception e) {
-			// do nothing
-		}
-				
-		// set listener for user long clicks
-		googleMap.setOnMapLongClickListener(new LongClickHandler());
 
 		// get current user location based on GPS or network connection
 		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
@@ -83,6 +68,22 @@ public class ChooseLocation extends Activity {
 			enableLocationSettings();
 		}
 		else {		
+			// Google map initialization */
+			mapView = (MapView)findViewById(R.id.map);
+			mapView.onCreate(savedInstanceState);
+			googleMap = mapView.getMap();   
+			
+			// zoom in
+			try {
+				googleMap.animateCamera(CameraUpdateFactory.zoomTo(new Float(3.0))); 
+			}
+			catch (Exception e) {
+				// do nothing
+			}
+					
+			// set listener for user long clicks
+			googleMap.setOnMapLongClickListener(new LongClickHandler());
+						
 			// get position according to GPS
 			if (gpsEnabled) {
 				gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -111,14 +112,10 @@ public class ChooseLocation extends Activity {
 
 	private void enableLocationSettings() {
 		Context context = getApplicationContext();
-		CharSequence text = "Your GPS and Network aren't working.\nPlease turn on one of them in order to determine your location.";
+		CharSequence text = "Your GPS and Network aren't working.\nPlease turn on one of them and refresh the map in order to determine your location.";
 		int duration = Toast.LENGTH_SHORT;
 		Toast toast = Toast.makeText(context, text, duration);
 		toast.show();
-		/*
-    	Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-    	startActivity(settingsIntent);
-    	*/
 	}
 
 	public void onPause(){
@@ -161,7 +158,7 @@ public class ChooseLocation extends Activity {
 				onRestart();
 			}
 			
-			if ((Button)v == btnSumbit)
+			if ((ImageButton)v == btnSumbit)
 			{				
 				goToPostEvent.removeExtra("lat");
 				goToPostEvent.removeExtra("lng");
@@ -211,10 +208,8 @@ public class ChooseLocation extends Activity {
 		alertDialog.show();
 	}
 	
-	@Override
 	protected void onRestart() {
-
-	    super.onRestart();
+		super.onRestart();
 	    Intent i = new Intent(this, ChooseLocation.class);  //your class
 	    startActivity(i);
 	    finish();

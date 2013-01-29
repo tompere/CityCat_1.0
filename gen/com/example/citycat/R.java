@@ -136,10 +136,9 @@ containing a value of this type.
         public static final int cool_cat_icon=0x7f020005;
         public static final int ic_action_search=0x7f020006;
         public static final int ic_launcher=0x7f020007;
-        public static final int marker2=0x7f020008;
-        public static final int marker_raw=0x7f020009;
-        public static final int refresh=0x7f02000a;
-        public static final int refresh2=0x7f02000b;
+        public static final int refresh=0x7f020008;
+        public static final int refresh2=0x7f020009;
+        public static final int submit_location=0x7f02000a;
     }
     public static final class id {
         public static final int ScrollView=0x7f04000a;

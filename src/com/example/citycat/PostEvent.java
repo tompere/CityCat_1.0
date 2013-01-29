@@ -1,6 +1,5 @@
 package com.example.citycat;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.Activity;
@@ -9,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -108,7 +106,7 @@ public class PostEvent extends Activity {
 			if ((Button)v == eventPost)
 			{
 
-				Boolean vaildInput = true;
+				boolean vaildInput = true;
 
 				/* input validation proccess */
 
@@ -125,18 +123,18 @@ public class PostEvent extends Activity {
 
 				// name
 				String tempEventName = eventName.getText().toString().trim();
-				if ( tempEventName != "" ) eventParseObject.put("name",tempEventName);
-				else vaildInput = false;
+				if ( tempEventName.equals("") ) vaildInput = false;
+				else eventParseObject.put("name",tempEventName);
 
 				// description
 				String tempDescription = eventDescription.getText().toString().trim();
-				if ( tempDescription != "" ) eventParseObject.put("description",tempDescription);
-				else vaildInput = false;
+				if ( tempDescription.equals("") ) vaildInput = false;
+				else eventParseObject.put("description",tempDescription);
 
 				// date and time
 				Date CurrentDate = new Date();			
-				if (date.before(CurrentDate)) eventParseObject.put("date",date);
-				else vaildInput = false;
+				if (date.before(CurrentDate)) vaildInput = false;
+				else eventParseObject.put("date",date);
 
 				if (vaildInput)
 				{
