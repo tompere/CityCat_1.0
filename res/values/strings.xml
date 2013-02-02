@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">CityCat</string>
@@ -6,5 +7,9 @@
     <string name="title_activity_main">CityCat v1.0 | Premium Edition</string>
     <string name="title_activity_post_event">Post An Event</string>
     <string name="title_activity_choose_location">Choose Event Location</string>
+    <string name="title_activity_choose_events">ChooseEvents</string>
+    <string name="title_activity_choose_event">ChooseEvent</string>
+    <string name="title_activity_event_list">Event_list</string>
+    <string name="title_activity_list_event">ListEvent</string>
 
 </resources>

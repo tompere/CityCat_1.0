@@ -13,11 +13,13 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 	
 	Button postEvent;
+	Button  ChooseEvent;
 	Intent goToPostEvent;
+	Intent goToChooseEvent;
 	TextView hotEventsText;
 	Scroller hotEventsScroller;
 	Context context;
-	/////////
+	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -25,13 +27,20 @@ public class MainActivity extends Activity {
         context = this;
         
         postEvent = (Button)this.findViewById(R.id.location);
-        goToPostEvent = new Intent(this, ChooseLocation.class);       
+        ChooseEvent=(Button)this.findViewById(R.id.ChooseEvent);
+        goToPostEvent = new Intent(this, ChooseLocation.class);   
+        goToChooseEvent= new Intent(this, ListEvent.class);
+     
         clickHandler click = new clickHandler();
         postEvent.setOnClickListener(click);
+        ChooseEvent.setOnClickListener(click);
         
         Thread hotEventsThread = new Thread(hotEvents);
         hotEventsThread.start();
-
+      
+        
+    	
+ 
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -45,6 +54,12 @@ public class MainActivity extends Activity {
 			if ((Button)v == postEvent)
 			{
 				startActivity(goToPostEvent);
+			}
+			
+			if ((Button)v == ChooseEvent)
+				
+			{
+				startActivity(goToChooseEvent);
 			}
 		}
 	}
