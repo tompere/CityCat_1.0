@@ -1,0 +1,164 @@
+package com.example.citycat;
+
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
+
+public class Login extends Activity {
+
+	Button submit;
+	RadioButton signup;
+	RadioButton signin;
+	EditText username;
+	EditText password;
+	EditText verify;
+	Context thisContext;
+	Intent mainAcitvity;
+	int option;
+
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_login);
+		thisContext = this;
+
+		mainAcitvity = new Intent(this, MainActivity.class);
+
+		// check user's sign up status
+		SharedPreferences ref = this.getSharedPreferences("user_details",MODE_PRIVATE);
+		boolean userStatus = ref.getBoolean("signupStatus", false);
+		//Log.d("Log-in", "after shared pref");
+
+		if (userStatus){
+			this.startActivity(mainAcitvity);
+		}
+
+		/* Parse.com - Initialize */
+		Parse.initialize(this, "sN3Uhl2rCCJvp1rodg9hYqw9pZN8kVkYuPCCwn5D", "ECprIUSxorEFhSSzq7ani1dR7Up4gApnjAmPFjiY"); 
+
+		username = (EditText) this.findViewById(R.id.username_input);
+		password = (EditText) this.findViewById(R.id.password_input);
+		verify = (EditText) this.findViewById(R.id.verify_input);
+		submit = (Button) this.findViewById(R.id.SignUp_button);
+		signup = (RadioButton) this.findViewById(R.id.Radion_signup);
+		signin = (RadioButton) this.findViewById(R.id.Radio_Signin);
+
+		RadioClick radioClickHandler = new RadioClick();
+
+		signup.setOnClickListener(radioClickHandler);
+		signin.setOnClickListener(radioClickHandler);
+
+		submit.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+
+				if (option == 0){ // in case user wants to sign up
+					Pattern pass = Pattern.compile("^[0-9|a-zA-Z]+");
+					Matcher mPass = pass.matcher(password.getText().toString());
+
+					Pattern user = Pattern.compile("^[a-zA-Z]+");
+					Matcher mUser = user.matcher(username.getText().toString());
+
+					if (!password.getText().toString().equals(verify.getText())){
+						AppAlertDialog.showNeutraAlertDialog(thisContext,"Sign Up","Your password doesn't match. Please type it again.",null);
+						verify.setText("");
+					}
+					else if (mPass.find()){			
+						AppAlertDialog.showNeutraAlertDialog(thisContext,"Sign Up","Your password should contain only letters and digits.",null);
+						verify.setText("");
+					}
+					else if (password.getText().toString().length() < 6 ){
+						AppAlertDialog.showNeutraAlertDialog(thisContext,"Sign Up","Your password should be at least 6 digits long. Please type it again.",null);
+						verify.setText("");
+					}
+					else if (username.getText().toString().length() < 5){
+						AppAlertDialog.showNeutraAlertDialog(thisContext,"Sign Up","Your username should be at least 5 letters long.",null);
+						verify.setText("");
+					}
+					else if (mUser.find()){			
+						AppAlertDialog.showNeutraAlertDialog(thisContext,"Sign Up","Your username should contain only letters.",null);
+						verify.setText("");
+					}
+					else {
+
+						SharedPreferences ref = getSharedPreferences("user_details",MODE_PRIVATE);
+						SharedPreferences.Editor ed = ref.edit();
+						ed.putString("username",username.getText().toString().trim());
+						ed.putBoolean("signupStatus",true);
+						ed.commit();
+
+						ParseObject eventParseObject = new ParseObject("Users");
+						eventParseObject.put("username",username.getText().toString().trim());
+						eventParseObject.put("password",password.getText().toString().trim());
+						eventParseObject.saveInBackground(new SaveCallback() {
+							public void done(ParseException e) {			    	
+								// success
+								if (e == null) {
+									AppAlertDialog.showNeutraAlertDialog(thisContext, "Post Event", "Success!\nYou are registered to CityCat", mainAcitvity);
+
+								} // failure to save object in parse.com
+								else {
+									AppAlertDialog.showNeutraAlertDialog(thisContext, "Post Event", "Ooops! Something went wrong. Please try again.", null);
+								}
+							}			   
+						});
+					}
+				}
+				
+				if (option == 1){ // in case user wants to sign up
+					ParseQuery query = new ParseQuery("Event");
+					query.findInBackground(new FindCallback() {
+						public void done(List<ParseObject> objects, ParseException e) {
+							if (e==null && objects != null)
+							{
+							}
+						}
+					});
+				}
+			}
+	});
+}
+
+
+public boolean onCreateOptionsMenu(Menu menu) {
+	getMenuInflater().inflate(R.menu.activity_login, menu);
+	return true;
+}
+
+private class RadioClick implements OnClickListener{
+
+	public void onClick(View v) {
+
+		if ((RadioButton)v == signin){
+			verify.setVisibility(4);
+			option = 1;
+		}
+
+		if ((RadioButton)v == signup){
+			verify.setVisibility(0);
+			option = 0;
+		}
+
+	}
+
+}
+
+}

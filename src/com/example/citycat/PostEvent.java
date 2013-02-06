@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -120,6 +121,10 @@ public class PostEvent extends Activity {
 				eventParseObject.put("type",eventType.getSelectedItem().toString());
 				eventParseObject.put("category",eventCategory.getSelectedItem().toString());
 				eventParseObject.put("gps",point);
+				
+				SharedPreferences ref = getSharedPreferences("user_details",MODE_PRIVATE);
+				
+				eventParseObject.put("publisher",ref.getString("username", "/Unknown/"));
 
 				// name
 				String tempEventName = eventName.getText().toString().trim();
