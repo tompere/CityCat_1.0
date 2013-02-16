@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
         postEvent = (Button)this.findViewById(R.id.location);
         ChooseEvent=(Button)this.findViewById(R.id.ChooseEvent);
         goToPostEvent = new Intent(this, ChooseLocation.class);   
-        goToChooseEvent= new Intent(this, ListEvent.class);
+        goToChooseEvent= new Intent(this, TabsEvents.class);
      
         clickHandler click = new clickHandler();
         postEvent.setOnClickListener(click);
