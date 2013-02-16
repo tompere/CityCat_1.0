@@ -57,14 +57,15 @@
             android:name="com.example.citycat.ChooseEvent"
             android:label="@string/title_activity_choose_event" >
         </activity>
-        <activity
-            android:name="com.example.citycat.Event_list"
-            android:label="@string/title_activity_event_list" >
-        </activity>
+      
         <activity
             android:name="com.example.citycat.ListEvent"
             android:label="@string/title_activity_list_event" >
         </activity>
+        
+        
+        
+        
         <activity
             android:name="com.example.citycat.Login"
             android:label="@string/title_activity_login" >
@@ -78,6 +79,9 @@
             android:name="com.example.citycat.TabsEvents"
             android:label="@string/title_activity_tabs_events" >
         </activity>
+        
+       
+   
     </application>
 
 </manifest>

@@ -19,7 +19,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 
-public class ListEvent extends Activity {
+public class ListEventsByCategory  extends Activity {
 	ListView list;
 	ArrayList<String> ListEventNames;
 	Context thisContext;
@@ -29,8 +29,8 @@ public class ListEvent extends Activity {
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_list_event);
-		list=(ListView) findViewById(R.id.list_events);;
+		setContentView(R.layout.activity_list_event_category);
+		list=(ListView) findViewById(R.id.list_events_category);
 		ListEvents=new ArrayList<String>();
 		Parse.initialize(this, "sN3Uhl2rCCJvp1rodg9hYqw9pZN8kVkYuPCCwn5D", "ECprIUSxorEFhSSzq7ani1dR7Up4gApnjAmPFjiY");
 
@@ -81,9 +81,7 @@ public class ListEvent extends Activity {
 	public void AdapterList()
 	{
 		ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,ListEvents);
-		Log.d("dddd", "ssss1111");
 		list.setAdapter(adapter);
-		Log.d("dddd", "ssss2222");
 	}
 	
 
