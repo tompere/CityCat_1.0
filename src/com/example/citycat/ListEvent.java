@@ -17,40 +17,56 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+
 public class ListEvent extends Activity {
 	ListView list;
-	ArrayList<String> ListEvents;
+	ArrayList<String> ListEventNames;
 	Context thisContext;
-
+	ArrayList<String> ListEvents;
+	
+	
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_event);
-		ListEvents = new ArrayList<String>();
+		list=(ListView) findViewById(R.id.list_events);;
+		ListEvents=new ArrayList<String>();
 		Parse.initialize(this, "sN3Uhl2rCCJvp1rodg9hYqw9pZN8kVkYuPCCwn5D", "ECprIUSxorEFhSSzq7ani1dR7Up4gApnjAmPFjiY");
 
-		list=(ListView) findViewById(R.id.listView1);
-		//ParseObject eventParseObject = new ParseObject("Event");
+		
+	
 		ParseQuery query = new ParseQuery("Event");
 		query.findInBackground(new FindCallback() {
 			public void done(List<ParseObject> objects, ParseException e) {
-				if (e==null && objects != null)
+			
+				if (e==null )
 				{
+					String name_event;
 					int i;
 					for (i=0; i<objects.size(); i++) 
 					{
-						ListEvents.add(objects.get(i).getString("name"));
+						ParseObject ParseEvent = objects.get(i);
+						name_event= ParseEvent.getString("name").toString();
+						
+						Log.d("check",name_event);
+						ListEvents.add(name_event);
+						
 					}
-
+					Log.d("dddd", "ssss");
+					AdapterList();
+			
 				}
 				else
 				{
-					//Log.d("The_Parse", "Error: " + e.getMessage());
+					
 				}
-			}
-		});
+			
 		
-		ArrayAdapter <String> adapter = new ArrayAdapter<String>(thisContext,android.R.layout.simple_list_item_1,android.R.id.text2,ListEvents);
-		list.setAdapter(adapter);
+			}
+		
+			
+		});
+	
 	}
 
 	@Override
@@ -59,5 +75,14 @@ public class ListEvent extends Activity {
 		getMenuInflater().inflate(R.menu.activity_list_event, menu);
 		return true;
 	}
+
+	
+	public void AdapterList()
+	{
+		ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,ListEvents);
+		list.setAdapter(adapter);
+	}
+	
+
 
 }
