@@ -30,6 +30,13 @@ private TabHost mTabHost;
 				.setIndicator("Category")
 				.setContent(intent);
 		mTabHost.addTab(spec); 	
+		
+		//events by type
+				intent=new Intent(this,ListEventsByType.class);
+				spec=mTabHost.newTabSpec("Type")
+						.setIndicator("Type")
+						.setContent(intent);
+				mTabHost.addTab(spec); 	
 	}
 
 	@Override

@@ -80,6 +80,7 @@
         
       <activity android:name=".ListEvent"/>
        <activity android:name=".ListEventsByCategory"/>
+          <activity android:name=".ListEventsByType"/>
    
     </application>
 
