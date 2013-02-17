@@ -16,27 +16,30 @@
         android:scrollbars="vertical"
         android:text="Scrolling Events" />
 
-  
-        
-                  
-    <Button
-        android:id="@+id/ChooseEvent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/location"
-        android:layout_alignBottom="@+id/location"
-        android:layout_alignLeft="@+id/hotEvents"
-        android:text="Choose An Event" />
-
     <Button
         android:id="@+id/location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/hotEvents"
-        android:layout_marginBottom="32dp"
-        android:text="Post An Event" />  
-        
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/Button01"
+        android:text="Post An Event" />
 
+    <Button
+        android:id="@+id/ChooseEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/Button01"
+        android:text="Choose An Event" />
+
+    <Button
+        android:id="@+id/YourEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/location"
+        android:layout_centerHorizontal="true"
+        android:text="Your Previous Events" />
 
 </RelativeLayout>

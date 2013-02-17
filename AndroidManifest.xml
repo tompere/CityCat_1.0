@@ -58,11 +58,12 @@
             android:label="@string/title_activity_choose_event" >
         </activity>
       
+        <activity
+            android:name="com.example.citycat.ListPreviosEvents"
+            android:label="@string/title_activity_previos_events" >
+        </activity>
+      
        
-        
-        
-        
-        
         
         <activity
             android:name="com.example.citycat.Login"
