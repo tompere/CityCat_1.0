@@ -8,6 +8,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -40,26 +43,66 @@ public class ListEventsByCategory extends Activity {
 		ParseQuery queryCategory = new ParseQuery("Categories");
 		queryCategory.findInBackground(new FindCallback() {
 			public void done(List<ParseObject> objects, ParseException e) {
-
+				ParseObject ParseCategory;
+				 String Category_event="";
 				if (e == null) {
-					String Category_event;
+					
 					int i;
 					for (i = 0; i < objects.size(); i++) {
-						ParseObject ParseCategory = objects.get(i);
+						ParseCategory = objects.get(i);
 						Category_event = ParseCategory.getString("category")
 								.toString();
 						ListCategory.add(Category_event);
-
+						
 					}
-					CategoryAdapter();
+					AdapterCategory();
+					GetCategoryEvents(Category_event);
 				} else
 					Log.d("Error", e.getMessage());
+				
+				
 			}
-
+			
 			
 		});
 
+		
+		
+
+	}
+
+
+
+	protected void onStart(){
+		super.onStart();
+		
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			private String selectedCategory = "";
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int arg2, long pos) {
+				
+				selectedCategory = parent.getItemAtPosition((int)pos).toString();
+				Log.d("Selected Value is:", selectedCategory);
+				GetCategoryEvents(selectedCategory);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+	
+	
+
+	private void GetCategoryEvents(String Category_event) {
+
+		ListEvents.clear();
+		Log.d("checking","checking");
 		ParseQuery query = new ParseQuery("Event");
+		query.whereEqualTo("category", Category_event);
 		query.findInBackground(new FindCallback() {
 			public void done(List<ParseObject> objects, ParseException e) {
 
@@ -71,7 +114,7 @@ public class ListEventsByCategory extends Activity {
 						ParseObject ParseEvent = objects.get(i);
 						name_event = ParseEvent.getString("name").toString();
 
-						Log.d("check", name_event);
+						
 						ListEvents.add(name_event);
 
 					}
@@ -84,24 +127,22 @@ public class ListEventsByCategory extends Activity {
 
 			}
 
-			
-
-
 		});
-		
-	
-
 	}
 	
-	private void CategoryAdapter() {
+	private void AdapterCategory() {
 		ArrayAdapter<String> adapterSpinner = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,ListCategory);
 		spinner.setAdapter(adapterSpinner);
 	}
+	
+		
 	
 	private void AdapterEvent() {
 		adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,ListEvents);
 		list.setAdapter(adapter);
 	}
+	
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
