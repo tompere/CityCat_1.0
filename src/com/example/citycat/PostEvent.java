@@ -40,8 +40,9 @@ public class PostEvent extends Activity {
 	double userLat = 0.0;
 	double userLng = 0.0;
 	String userCity = "";
-
+	Boolean IsUserEventsPost;
 	Boolean postedSuccessfuly = false;
+	String objectId;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,7 +58,13 @@ public class PostEvent extends Activity {
 		userLat = bundle.getDouble("lat");
 		userLng = bundle.getDouble("lng");
 		userCity = bundle.getString("city");
-
+		IsUserEventsPost=bundle.getBoolean("IsUserEventsPost");
+		
+		//getting the objectId - this will help us to delete or update ( only if its the user events post and from the main activity
+		// we need to vissible/unvissible the delete button..
+		if (IsUserEventsPost)
+			objectId=bundle.getString("objectId");
+		
 		eventCity = (EditText)this.findViewById(R.id.event_city_input);
 		eventCity.setText(userCity);
 		eventCity.setClickable(false);

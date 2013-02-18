@@ -22,6 +22,9 @@ public class Details_Events extends Activity {
 	String city;
 	String dateFormat;
 	String gps;
+	String objectId;
+	boolean IsUserEvents;
+	boolean IsUserEventsPost;
 	TextView tv_name;
 	TextView tv_category;
 	TextView tv_type;
@@ -31,7 +34,9 @@ public class Details_Events extends Activity {
 	TextView tv_dateFormat;
 	Button btn_Back;
 	Button btn_GPS;
+	Button btn_UPDATE;
 	Context thiscontext;
+	
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,7 +52,26 @@ public class Details_Events extends Activity {
 		name = bundle.getString("name");
 		description = bundle.getString("description");
 		city = bundle.getString("city");
+		objectId=bundle.getString("objectId");
 		dateFormat = bundle.getString("dateFormat");
+		IsUserEvents=bundle.getBoolean("IsUserEvents");
+		
+		if (IsUserEvents)
+		{
+			//if its the user call - let him update the event if he want
+			btn_UPDATE.setVisibility(0);
+			IsUserEventsPost=true;
+		}
+		else
+		{
+			//else
+			btn_UPDATE.setVisibility(4);
+			IsUserEventsPost=false;
+		}
+		
+			
+	
+		
 		gps=bundle.getString("gps");
 		tv_name=(TextView)findViewById(R.id.event_name_user);
 		tv_category=(TextView)findViewById(R.id.event_category_user);
@@ -58,6 +82,7 @@ public class Details_Events extends Activity {
 		tv_dateFormat=(TextView)findViewById(R.id.event_Date_user);
 		btn_Back=(Button)findViewById(R.id.btn_Back);
 		btn_GPS=(Button)findViewById(R.id.Btn_gps);
+		btn_UPDATE=(Button)findViewById(R.id.btn_Update);
 		//set text
 		tv_name.setText(name);
 		tv_category.setText(category);
@@ -91,6 +116,15 @@ public class Details_Events extends Activity {
 				startActivity(intent);
 				
 			}
+			if ((Button)v == btn_UPDATE)
+			{
+				Intent intent = new Intent(thiscontext,PostEvent.class); 
+				//information about the original call ( to know if it postEvent is for new or update event
+				intent.putExtra("IsUserEventsPost", IsUserEventsPost);
+				intent.putExtra("objectId", objectId);
+				startActivity(intent);
+			}
+				
 		}
 	}
 	

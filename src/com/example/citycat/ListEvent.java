@@ -109,7 +109,7 @@ public class ListEvent extends Activity {
 							String city= ParseEvent.getString("city");
 							ParseGeoPoint gps_parse=ParseEvent.getParseGeoPoint("gps");
 							String gps= gps_parse.toString();
-							Log.d("gps: ", gps);
+							
 							Intent intent = new Intent(thisContext,Details_Events.class);
 							intent.putExtra("name",name);
 							intent.putExtra("category",category);
@@ -119,6 +119,7 @@ public class ListEvent extends Activity {
 							intent.putExtra("description",description);
 							intent.putExtra("city",city);
 							intent.putExtra("gps", gps);
+							intent.putExtra("IsUserEvents", false);
 							Log.d("item", "afterintent");
 							startActivity(intent);
 

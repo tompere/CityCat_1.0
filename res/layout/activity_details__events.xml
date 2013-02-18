@@ -31,22 +31,26 @@
 		        android:layout_width="70dp"
 		        android:layout_height="wrap_content"
 		        android:text="BACK" />
-
-		    <TextView
-		        android:id="@+id/TextView_HeadLine"
-		        android:layout_width="match_parent"
+		    <Button
+		        android:id="@+id/btn_Update"
+		        android:layout_width="70dp"
 		        android:layout_height="wrap_content"
-		        android:layout_gravity="center"
-		        android:gravity="center"
-		        android:paddingBottom="10dp"
-		        android:paddingTop="10dp"
-		        android:text="Event Details"
-		        android:textSize="20dp"
-		        android:textStyle="bold" />
+		        android:text="UPDATE" />
 
-		 
+		    
 
 		</LinearLayout>
+
+		<TextView
+		    android:id="@+id/TextView_HeadLine"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:gravity="center"
+		    android:paddingBottom="10dp"
+		    android:paddingTop="10dp"
+		    android:text="Event Details"
+		    android:textSize="20dp"
+		    android:textStyle="bold" />
 
 	    <LinearLayout
 	      

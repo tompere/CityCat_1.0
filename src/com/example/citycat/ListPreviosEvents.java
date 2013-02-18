@@ -20,6 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -106,6 +107,9 @@ public class ListPreviosEvents extends Activity {
 							String time=date.getHours()+ ":"+date.getMinutes();
 							String description=ParseEvent.getString("description");
 							String city= ParseEvent.getString("city");
+							ParseGeoPoint gps_parse=ParseEvent.getParseGeoPoint("gps");
+							String gps= gps_parse.toString();
+							Log.d("gps: ", gps);
 							Log.d("item", "beforeintent");
 							Intent intent = new Intent(thisContext,Details_Events.class);
 							intent.putExtra("name",name);
@@ -115,6 +119,7 @@ public class ListPreviosEvents extends Activity {
 							intent.putExtra("time",time);
 							intent.putExtra("description",description);
 							intent.putExtra("city",city);
+							intent.putExtra("gps", gps);
 							Log.d("item", "afterintent");
 							startActivity(intent);
 

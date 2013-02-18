@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -163,6 +164,9 @@ public class ListEventsByType extends Activity {
 							String description=ParseEvent.getString("description");
 							String city= ParseEvent.getString("city");
 							Log.d("item", "beforeintent");
+							ParseGeoPoint gps_parse=ParseEvent.getParseGeoPoint("gps");
+							String gps= gps_parse.toString();
+							Log.d("gps: ", gps);
 							Intent intent = new Intent(thisContext,Details_Events.class);
 							intent.putExtra("name",name);
 							intent.putExtra("category",category);
@@ -171,6 +175,8 @@ public class ListEventsByType extends Activity {
 							intent.putExtra("time",time);
 							intent.putExtra("description",description);
 							intent.putExtra("city",city);
+							intent.putExtra("gps", gps);
+							intent.putExtra("IsUserEvents", false);
 							Log.d("item", "afterintent");
 							startActivity(intent);
 
