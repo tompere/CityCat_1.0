@@ -1,0 +1,300 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="false" >
+
+
+	<LinearLayout
+	   
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:background="@drawable/background_plain"
+	    android:clickable="false"
+	    android:orientation="vertical" >
+
+		<LinearLayout
+		    android:id="@+id/line1"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:clickable="false"
+		    android:orientation="horizontal" >
+
+		    <Button
+			    android:id="@+id/Btn_gps"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="GPS" />
+
+		    <Button
+		        android:id="@+id/btn_Back"
+		        android:layout_width="70dp"
+		        android:layout_height="wrap_content"
+		        android:text="BACK" />
+
+		    <TextView
+		        android:id="@+id/TextView_HeadLine"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:gravity="center"
+		        android:paddingBottom="10dp"
+		        android:paddingTop="10dp"
+		        android:text="Event Details"
+		        android:textSize="20dp"
+		        android:textStyle="bold" />
+
+		 
+
+		</LinearLayout>
+
+	    <LinearLayout
+	      
+	        android:id="@+id/line2"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:clickable="false"
+	        android:orientation="horizontal"
+	        android:paddingBottom="10dp" >
+
+	        <TextView
+	            android:id="@+id/TextView_Name"
+	            android:layout_width="wrap_content"
+	            android:layout_height="fill_parent"
+	            android:gravity="left"
+	            android:paddingBottom="10dp"
+	            android:paddingLeft="10dp"
+	            android:paddingRight="10dp"
+	            android:paddingTop="10dp"
+	            android:text="Name"
+	            android:textSize="15dp" />
+
+
+	        <TextView
+	            android:id="@+id/event_name_user"
+	            android:layout_width="180dp"
+	            android:layout_height="match_parent"
+	            android:layout_weight="1"
+	            android:ems="10"
+	            android:gravity="center_vertical|right"
+	            android:paddingRight="10dp" >
+
+	            <requestFocus />
+	        </TextView>
+	    </LinearLayout>
+
+	    <LinearLayout
+	        
+	        android:id="@+id/line3"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:clickable="false"
+	        android:orientation="horizontal"
+	        android:paddingBottom="10dp" >
+
+
+	        <TextView
+	            android:id="@+id/TextView_City"
+	            android:layout_width="wrap_content"
+	            android:layout_height="fill_parent"
+	            android:gravity="left"
+	            android:paddingBottom="10dp"
+	            android:paddingLeft="10dp"
+	            android:paddingRight="10dp"
+	            android:paddingTop="10dp"
+	            android:text="City"
+	            android:textSize="15dp" />
+
+
+	        <TextView
+	            android:id="@+id/event_city_user"
+	            android:layout_width="180dp"
+	            android:layout_height="match_parent"
+	            android:layout_weight="1"
+	            android:ems="10"
+	            android:gravity="center_vertical|right"
+	            android:paddingRight="10dp" />
+
+	    </LinearLayout>
+
+
+	    <LinearLayout
+	      
+	        android:id="@+id/line5"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:clickable="false"
+	        android:orientation="horizontal"
+	        android:paddingBottom="10dp" >
+
+	        <TextView
+	            android:id="@+id/TextView_Type"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:gravity="left"
+	            android:paddingBottom="10dp"
+	            android:paddingLeft="10dp"
+	            android:paddingRight="10dp"
+	            android:paddingTop="10dp"
+	            android:text="Type"
+	            android:textSize="15dp" />
+
+			<TextView
+	            android:id="@+id/event_type_user"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1" />
+	        
+	
+
+	    </LinearLayout>
+
+
+	    <LinearLayout
+	    
+	        android:id="@+id/line6"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:clickable="false"
+	        android:orientation="horizontal"
+	        android:paddingBottom="10dp" >
+
+	        <TextView
+	            android:id="@+id/TextView_Category"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:gravity="left"
+	            android:paddingBottom="10dp"
+	            android:paddingLeft="10dp"
+	            android:paddingRight="10dp"
+	            android:paddingTop="10dp"
+	            android:text="Category"
+	            android:textSize="15dp" />
+
+	        <TextView
+	            android:id="@+id/event_category_user"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1" />
+
+	    </LinearLayout>
+
+	    <LinearLayout
+	       
+	        android:id="@+id/line7"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:clickable="false"
+	        android:orientation="horizontal"
+	        android:paddingBottom="10dp" >
+
+	        <TextView
+	            android:id="@+id/TextView_Date"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:gravity="left"
+	            android:paddingBottom="10dp"
+	            android:paddingLeft="10dp"
+	            android:paddingRight="10dp"
+	            android:paddingTop="10dp"
+	            android:text="Date"
+	            android:textSize="15dp" />
+
+
+	        <TextView
+	            android:id="@+id/event_Date_user"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1" />
+
+
+	    </LinearLayout>
+
+
+	    <LinearLayout
+	       
+	        android:id="@+id/line8"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:clickable="false"
+	        android:orientation="horizontal"
+	        android:paddingBottom="10dp" >
+
+	        <TextView
+	            android:id="@+id/TextView_Time"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:gravity="left"
+	            android:paddingBottom="10dp"
+	            android:paddingLeft="10dp"
+	            android:paddingRight="10dp"
+	            android:paddingTop="10dp"
+	            android:text="Time"
+	            android:textSize="15dp" />
+
+	             <TextView
+	            android:id="@+id/event_time_user"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1" />
+
+	    </LinearLayout>
+
+
+
+
+
+
+	    <LinearLayout
+	      
+	        android:id="@+id/line9"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:clickable="false"
+	        android:orientation="horizontal"
+	        android:paddingBottom="0dp" >
+
+	        <TextView
+	            android:id="@+id/TextView_desccription"
+	            android:layout_width="wrap_content"
+	            android:layout_height="fill_parent"
+	            android:layout_marginRight="20dp"
+	            android:gravity="left"
+	            android:paddingBottom="10dp"
+	            android:paddingLeft="20dp"
+	            android:paddingRight="10dp"
+	            android:paddingTop="10dp"
+	            android:text="Description"
+	            android:textSize="15dp" />
+
+	    </LinearLayout>
+
+
+	    <LinearLayout
+	       
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:clickable="false"
+	        android:orientation="horizontal"
+	        android:paddingBottom="10dp" >
+
+	        <TextView
+	            android:id="@+id/event_description_user"
+	            android:layout_width="match_parent"
+	            android:layout_height="103dp"
+	            android:layout_marginLeft="10dp"
+	            android:layout_marginRight="10dp"
+	            android:ems="10"
+	            android:inputType="textMultiLine|textLongMessage"
+	            android:paddingLeft="20dp"
+	            android:paddingRight="20dp" />
+
+	    </LinearLayout>
+
+
+
+
+
+	</LinearLayout>
+
+</ScrollView>

@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
 			if ((Button)v == ChooseEvent)
 
 			{
-				Log.d("checkingMain","check333");
+
 				startActivity(goToChooseEvent);
 			}
 

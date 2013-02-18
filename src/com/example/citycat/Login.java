@@ -41,9 +41,9 @@ public class Login extends Activity {
 		SharedPreferences ref = this.getSharedPreferences("user_details",MODE_PRIVATE);
 		boolean userStatus = ref.getBoolean("signupStatus", false);
 
-	if (userStatus){
+	//if (userStatus){
 			this.startActivity(mainAcitvity);
-		}
+	//	}
 
 		/* Parse.com - Initialize */
 		Parse.initialize(this, "sN3Uhl2rCCJvp1rodg9hYqw9pZN8kVkYuPCCwn5D", "ECprIUSxorEFhSSzq7ani1dR7Up4gApnjAmPFjiY"); 
