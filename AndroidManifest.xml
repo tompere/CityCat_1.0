@@ -55,15 +55,18 @@
 
         <activity
             android:name="com.example.citycat.ChooseEvent"
-            android:label="@string/title_activity_choose_event" >
+            android:label="@string/title_activity_choose_event"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.example.citycat.ListPreviosEvents"
-            android:label="@string/title_activity_previos_events" >
+            android:label="@string/title_activity_previos_events"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.example.citycat.Login"
-            android:label="@string/title_activity_login" >
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -72,18 +75,26 @@
         </activity>
         <activity
             android:name="com.example.citycat.TabsEvents"
-            android:label="@string/title_activity_tabs_events" >
+            android:label="@string/title_activity_tabs_events"
+            android:screenOrientation="portrait" >
         </activity>
         <activity android:name="com.example.citycat.ListEvent" />
         <activity android:name="com.example.citycat.ListEventsByCategory" />
         <activity android:name="com.example.citycat.ListEventsByType" />
         <activity
             android:name="com.example.citycat.Details_Events"
-            android:label="@string/title_activity_details__events" >
+            android:label="@string/title_activity_details__events"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.example.citycat.UpdateEvent"
-            android:label="@string/title_activity_update_event" >
+            android:label="@string/title_activity_update_event"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".LocationMap"
+            android:label="@string/title_activity_location_map"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

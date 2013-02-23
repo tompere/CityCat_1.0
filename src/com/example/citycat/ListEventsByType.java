@@ -33,45 +33,43 @@ public class ListEventsByType extends Activity {
 	ArrayList<String> ListType;
 	Spinner spinner;
 	ArrayAdapter<String> adapter;
+	CityCatParseCom parseCom;
+	String selectedType;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_event_type);
 		list = (ListView) findViewById(R.id.list_events_type);
-		ListEvents = new ArrayList<String>();
-		ListType = new ArrayList<String>();
 		spinner = (Spinner) findViewById(R.id.spinner_type);
-		Parse.initialize(this, "sN3Uhl2rCCJvp1rodg9hYqw9pZN8kVkYuPCCwn5D",
-				"ECprIUSxorEFhSSzq7ani1dR7Up4gApnjAmPFjiY");
-
-		ParseQuery queryCategory = new ParseQuery("Types");
-		queryCategory.findInBackground(new FindCallback() {
-			public void done(List<ParseObject> objects, ParseException e) {
-				ParseObject ParseType;
-				String Type_event="";
-				if (e == null) {
-
-					int i;
-					for (i = 0; i < objects.size(); i++) {
-						ParseType = objects.get(i);
-						Type_event = ParseType.getString("TypeName")
-								.toString();
-						ListType.add(Type_event);
-
+		// initialize parse object
+		parseCom = new CityCatParseCom(this);
+		thisContext = this;
+		
+		// retrieve events types from shared prefernces and set into spinner
+		ArrayAdapter<String> adapterSpinner = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+				CityCatParseCom.getTypesSharedPref(this));
+		spinner.setAdapter(adapterSpinner);				
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+					public void onItemSelected(AdapterView<?> parent, View view, int arg2, long pos) {		
+						selectedType = parent.getItemAtPosition((int)pos).toString();
+						ListEvents = parseCom.getAllEventByCriteria("type",selectedType);					
+						adapter = new ArrayAdapter<String>(thisContext, android.R.layout.simple_list_item_1, ListEvents);						
+						list.setAdapter(adapter);
+						// listener on events list - on click go to specific event screen
+						list.setOnItemClickListener(new OnItemClickListener() {
+							public void onItemClick (AdapterView<?> parent, View v, int position,
+									long id) {
+								String item = (String) adapter.getItem(position);
+								Intent EventActivity = parseCom.getSpecigicEventByCriteria("name",item);
+								startActivity(EventActivity);
+							}
+						});
+						
 					}
-					AdapterType();
-					GetCategoryEvents(Type_event);
-				} else
-					Log.d("Error", e.getMessage());
-
-
-			}
-
-
-		});
-
-
-
+		
+					public void onNothingSelected(AdapterView<?> arg0) {}
+					
+				});
 
 	}
 
@@ -80,31 +78,13 @@ public class ListEventsByType extends Activity {
 	protected void onStart(){
 		super.onStart();
 
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			private String selectedType = "";
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int arg2, long pos) {
-
-				selectedType = parent.getItemAtPosition((int)pos).toString();
-				Log.d("Selected Value is:", selectedType);
-				GetCategoryEvents(selectedType);
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-
-			}
-		});
 	}
 
 
-
+	/*
 	private void GetCategoryEvents(String Category_type) {
 
 		ListEvents.clear();
-		Log.d("checking","checking");
 		ParseQuery query = new ParseQuery("Event");
 		query.whereEqualTo("type", Category_type);
 		query.findInBackground(new FindCallback() {
@@ -127,11 +107,9 @@ public class ListEventsByType extends Activity {
 						ListEvents.add(name_event);
 
 					}
-					Log.d("dddd", "ssss");
 					AdapterEvent();
 
 				} else {
-					Log.d("Error", e.getMessage());
 				}
 
 			}
@@ -143,7 +121,6 @@ public class ListEventsByType extends Activity {
 			public void onItemClick (AdapterView<?> parent, View v, int position,
 					long id) {
 				String item = (String) getListAdapter().getItem(position);
-				Log.d("item", "item is: "+ item);
 				ParseQuery query = new ParseQuery("Event");
 				query.whereEqualTo("name", item);
 				query.findInBackground(new FindCallback() {
@@ -163,10 +140,8 @@ public class ListEventsByType extends Activity {
 							String time=date.getHours()+ ":"+date.getMinutes();
 							String description=ParseEvent.getString("description");
 							String city= ParseEvent.getString("city");
-							Log.d("item", "beforeintent");
 							ParseGeoPoint gps_parse=ParseEvent.getParseGeoPoint("gps");
 							String gps= gps_parse.toString();
-							Log.d("gps: ", gps);
 							Intent intent = new Intent(thisContext,Details_Events.class);
 							intent.putExtra("name",name);
 							intent.putExtra("category",category);
@@ -177,7 +152,6 @@ public class ListEventsByType extends Activity {
 							intent.putExtra("city",city);
 							intent.putExtra("gps", gps);
 							intent.putExtra("IsUserEvents", false);
-							Log.d("item", "afterintent");
 							startActivity(intent);
 
 						}
@@ -190,13 +164,6 @@ public class ListEventsByType extends Activity {
 		});
 	}
 
-	private void AdapterType() {
-		ArrayAdapter<String> adapterSpinner = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,ListType);
-		spinner.setAdapter(adapterSpinner);
-	}
-
-
-
 	private void AdapterEvent() {
 		adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,ListEvents);
 		list.setAdapter(adapter);
@@ -208,11 +175,11 @@ public class ListEventsByType extends Activity {
 			return adapter;
 		else
 		{
-			Log.d("Error","Error is: There is not exsisting adapter");
 			return null;
 		}
 	}
-
+	
+	*/
 
 
 	@Override

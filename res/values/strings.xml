@@ -17,5 +17,7 @@
     <string name="title_activity_details__events">Details_Events</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_update_event">UpdateEvent</string>
+    <string name="title_activity_location_map">LocationMap</string>
+    <string name="title_activity_download_wait">DownloadWait</string>
 
 </resources>

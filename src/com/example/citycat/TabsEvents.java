@@ -32,11 +32,11 @@ private TabHost mTabHost;
 		mTabHost.addTab(spec); 	
 		
 		//events by type
-				intent=new Intent(this,ListEventsByType.class);
-				spec=mTabHost.newTabSpec("Type")
-						.setIndicator("Type")
-						.setContent(intent);
-				mTabHost.addTab(spec); 	
+		intent=new Intent(this,ListEventsByType.class);
+		spec=mTabHost.newTabSpec("Type")
+				.setIndicator("Type")
+				.setContent(intent);
+		mTabHost.addTab(spec); 	
 	}
 
 	@Override

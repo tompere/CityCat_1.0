@@ -1,10 +1,9 @@
 package com.example.citycat;
 
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -45,6 +44,8 @@ public class Details_Events extends Activity {
 		// Initialize
 		thiscontext=this;
 		Intent intent = getIntent();
+		
+		// retrieve bundle data (from events list)
 		bundle = intent.getExtras();
 		category = bundle.getString("category");
 		type = bundle.getString("type");
@@ -52,9 +53,21 @@ public class Details_Events extends Activity {
 		name = bundle.getString("name");
 		description = bundle.getString("description");
 		city = bundle.getString("city");
-		objectId=bundle.getString("objectId");
+		objectId = bundle.getString("objectId");
 		dateFormat = bundle.getString("dateFormat");
-		IsUserEvents=bundle.getBoolean("IsUserEvents");
+		IsUserEvents =bundle.getBoolean("IsUserEvents");
+		
+		// initialize all layout elements (buttons and text views)
+		tv_name=(TextView)findViewById(R.id.event_name_user);
+		tv_category=(TextView)findViewById(R.id.event_category_user);
+		tv_type=(TextView)findViewById(R.id.event_type_user);
+		tv_time=(TextView)findViewById(R.id.event_time_user);
+		tv_description=(TextView)findViewById(R.id.event_description_user);
+		tv_city=(TextView)findViewById(R.id.event_city_user);
+		tv_dateFormat=(TextView)findViewById(R.id.event_Date_user);
+		btn_Back=(Button)findViewById(R.id.btn_Back);
+		btn_GPS=(Button)findViewById(R.id.Btn_gps);
+		btn_UPDATE=(Button)findViewById(R.id.btn_Update);
 		
 		if (IsUserEvents)
 		{
@@ -69,20 +82,6 @@ public class Details_Events extends Activity {
 			IsUserEventsPost=false;
 		}
 		
-			
-	
-		
-		gps=bundle.getString("gps");
-		tv_name=(TextView)findViewById(R.id.event_name_user);
-		tv_category=(TextView)findViewById(R.id.event_category_user);
-		tv_type=(TextView)findViewById(R.id.event_type_user);
-		tv_time=(TextView)findViewById(R.id.event_time_user);
-		tv_description=(TextView)findViewById(R.id.event_description_user);
-		tv_city=(TextView)findViewById(R.id.event_city_user);
-		tv_dateFormat=(TextView)findViewById(R.id.event_Date_user);
-		btn_Back=(Button)findViewById(R.id.btn_Back);
-		btn_GPS=(Button)findViewById(R.id.Btn_gps);
-		btn_UPDATE=(Button)findViewById(R.id.btn_Update);
 		//set text
 		tv_name.setText(name);
 		tv_category.setText(category);
@@ -111,8 +110,9 @@ public class Details_Events extends Activity {
 			if ((Button)v == btn_GPS)
 			{
 				//tom : change this constructor if u need to
-				Intent intent = new Intent(thiscontext,ChooseLocation.class); 
-				intent.putExtra("gps", gps);
+				Intent intent = new Intent(thiscontext,LocationMap.class); 
+				intent.putExtra("gpsLatitude", bundle.getDouble("gpsLat"));
+				intent.putExtra("gpsLongtitude", bundle.getDouble("gpsLng"));
 				startActivity(intent);
 				
 			}

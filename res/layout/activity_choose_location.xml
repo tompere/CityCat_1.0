@@ -6,16 +6,6 @@
     android:background="@drawable/background_plain"
     android:gravity="center" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:text="Step #1 | Choose Location"
-        android:textSize="20dp"
-        android:textStyle="bold" />
-
     <FrameLayout
         android:id="@+id/frameLayout1"
         android:layout_width="wrap_content"

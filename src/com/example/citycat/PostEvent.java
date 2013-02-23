@@ -1,11 +1,10 @@
 package com.example.citycat;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,11 +17,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
-import com.parse.Parse;
-import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
-import com.parse.SaveCallback;
 
 public class PostEvent extends Activity {
 
@@ -43,13 +39,14 @@ public class PostEvent extends Activity {
 	Boolean IsUserEventsPost;
 	Boolean postedSuccessfuly = false;
 	String objectId;
+	CityCatParseCom parseCom;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_event);
 		postEventContext = this;
-		/* Parse.com - Initialize */
-		Parse.initialize(this, "sN3Uhl2rCCJvp1rodg9hYqw9pZN8kVkYuPCCwn5D", "ECprIUSxorEFhSSzq7ani1dR7Up4gApnjAmPFjiY"); 
+		
+		parseCom = new CityCatParseCom(postEventContext);	
 
 		/* Initialize all form fields */
 
@@ -58,12 +55,12 @@ public class PostEvent extends Activity {
 		userLat = bundle.getDouble("lat");
 		userLng = bundle.getDouble("lng");
 		userCity = bundle.getString("city");
-		IsUserEventsPost=bundle.getBoolean("IsUserEventsPost");
+		IsUserEventsPost = bundle.getBoolean("IsUserEventsPost");
 		
 		//getting the objectId - this will help us to delete or update ( only if its the user events post and from the main activity
 		// we need to vissible/unvissible the delete button..
 		if (IsUserEventsPost)
-			objectId=bundle.getString("objectId");
+			objectId = bundle.getString("objectId");
 		
 		eventCity = (EditText)this.findViewById(R.id.event_city_input);
 		eventCity.setText(userCity);
@@ -85,17 +82,15 @@ public class PostEvent extends Activity {
 		/* Initialize all buttons */
 		clickHandler clickhandler = new clickHandler();
 		eventPost = (Button)this.findViewById(R.id.event_post_button);
-		//eventGetLocation = (Button)this.findViewById(R.id.postEvent_LocationButton);
 		eventPost.setOnClickListener(clickhandler);
-		//eventGetLocation.setOnClickListener(clickhandler);
-
-		String eventTypesList[] = {"Beach", "Music", "Street Event", "Shopping"}; 
-		ArrayAdapter<CharSequence> adapter2 = new ArrayAdapter<CharSequence>(this,android.R.layout.simple_spinner_item,eventTypesList);
+			
+		ArrayAdapter<CharSequence> adapter2 = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, 
+				CityCatParseCom.getTypesSharedPref(this)); 
 		adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		eventType.setAdapter(adapter2);
-
-		String eventCategorysList[] = {"Go Extreme", "Spend Money", "Sex, Drugs & RockN'Roll ", "Lose Yourself"}; 
-		ArrayAdapter<CharSequence> adapter3 = new ArrayAdapter<CharSequence>(this,android.R.layout.simple_spinner_item,eventCategorysList);
+		
+		ArrayAdapter<CharSequence> adapter3 = new ArrayAdapter<CharSequence>(this,android.R.layout.simple_spinner_item,
+				CityCatParseCom.getCategoriesSharedPref(this));
 		adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		eventCategory.setAdapter(adapter3);
 
@@ -150,57 +145,15 @@ public class PostEvent extends Activity {
 
 				if (vaildInput)
 				{
-					eventParseObject.saveInBackground(new SaveCallback() {
-						public void done(ParseException e) {			    	
-							// success
-							if (e == null) {
-								showNeutraAlertDialog(postEventContext, "Post Event", "Success!\nYou've posted an event", goToMain);
-
-							} // failure to save object in parse.com
-							else {
-								showNeutraAlertDialog(postEventContext, "Post Event", "Ooops! Something went wrong.\nplease try again.", null);
-							}
-						}			   
-					});						
+					parseCom.postEvent(eventParseObject);		
 				}
 
 				else
 				{
-					showNeutraAlertDialog(postEventContext, "Post Event", "Ooops! Events details are invalid.\nPlease Try again.", null);
+					AppAlertDialog.showNeutraAlertDialog(postEventContext, "Post Event", "Ooops! Events details are invalid.\nPlease Try again.", null);
 				}
 			}
 		}
 	}
-
-	/* generic function to handle AlertDialog */
-	public void showNeutraAlertDialog(Context context, String title, String msg, Intent goToActivity)
-	{
-		final Intent whatTodo = goToActivity;
-
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-
-		// set title
-		alertDialogBuilder.setTitle(title);
-
-		// set dialog message
-		alertDialogBuilder
-		//.setMessage("Ooops! One of the events details are invalid. Please Try again.")
-		.setMessage(msg)
-		.setCancelable(false)
-		.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog,int id) {				
-				if (whatTodo == null) dialog.cancel(); //cancel dialog
-				else startActivity(whatTodo); //go to chosen activity
-			}
-		});
-
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
-
-		// show it
-		alertDialog.show();
-	}
-
-
 
 }

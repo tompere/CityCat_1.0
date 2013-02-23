@@ -31,107 +31,33 @@ public class ListPreviosEvents extends Activity {
 	Context thisContext;
 	ArrayList<String> ListEvents;
 	ArrayAdapter<String> adapter;
-
+	CityCatParseCom parseCom;
 
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_previos_events);
-		list=(ListView) findViewById(R.id.list_previos_events);
-		ListEvents=new ArrayList<String>();
-		Parse.initialize(this, "sN3Uhl2rCCJvp1rodg9hYqw9pZN8kVkYuPCCwn5D", "ECprIUSxorEFhSSzq7ani1dR7Up4gApnjAmPFjiY");
+		list = (ListView) findViewById(R.id.list_previos_events);
+		ListEvents = new ArrayList<String>();
+		parseCom = new CityCatParseCom(this);
+		
 		SharedPreferences ref = getSharedPreferences("user_details",MODE_PRIVATE);
-		String user_name=ref.getString("username","unknown");
-		Log.d("publisher", "publisher is" + user_name );
-
-		ParseQuery query = new ParseQuery("Event");
-		query.whereEqualTo("publisher", user_name);
-
-		query.findInBackground(new FindCallback() {
-			public void done(List<ParseObject> objects, ParseException e) {
-
-				if (e==null )
-				{
-					String name_event;
-					int i;
-					for (i=0; i<objects.size(); i++) 
-					{
-						ParseObject ParseEvent = objects.get(i);
-						Date date = ParseEvent.getDate("date");
-						int Year = date.getYear()-100+2000;
-
-						String dateFormat = date.getDay() + 
-								"/" + date.getMonth() + 
-								"/" + Year;
-
-						name_event= ParseEvent.getString("name").toString() + "   " + dateFormat;
-
-						Log.d("check name ",name_event);
-						ListEvents.add(name_event);
-
-					}
-					Log.d("dddd", "ssss");
-					AdapterList();
-
-				}
-				else
-				{
-					Log.d("ddddaaaa", "ssssaaaaa");
-				}
-			}
-
-
-		});
+		String usermame = ref.getString("username","unknown");
+		
+		// get all events and set into listView
+		ListEvents = parseCom.getAllEventByCriteria("publisher", usermame);	
+		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ListEvents);
+		list.setAdapter(adapter);
+		
+		// listener on events list - on click go to specific event screen
 		list.setOnItemClickListener(new OnItemClickListener() {
-
 			public void onItemClick (AdapterView<?> parent, View v, int position,
 					long id) {
-				String item = (String) getListAdapter().getItem(position);
-				Log.d("item", "item is: "+ item);
-				ParseQuery query = new ParseQuery("Event");
-				query.whereEqualTo("name", item);
-				query.findInBackground(new FindCallback() {
-					public void done(List<ParseObject> objects, ParseException e) {
-
-						if (e == null) {
-							ParseObject ParseEvent = objects.get(0);
-							String name= ParseEvent.getString("name");
-							String category= ParseEvent.getString("category");
-							String type= ParseEvent.getString("type");
-							Date date = ParseEvent.getDate("date");
-							int Year = date.getYear()-100+2000;
-							int Month=date.getMonth()+1;
-							String dateFormat = date.getDay() + 
-									"/" + Month + 
-									"/" + Year;
-							String time=date.getHours()+ ":"+date.getMinutes();
-							String description=ParseEvent.getString("description");
-							String city= ParseEvent.getString("city");
-							ParseGeoPoint gps_parse=ParseEvent.getParseGeoPoint("gps");
-							String gps= gps_parse.toString();
-							Log.d("gps: ", gps);
-							Log.d("item", "beforeintent");
-							Intent intent = new Intent(thisContext,Details_Events.class);
-							intent.putExtra("name",name);
-							intent.putExtra("category",category);
-							intent.putExtra("type",type);
-							intent.putExtra("dateFormat",dateFormat);
-							intent.putExtra("time",time);
-							intent.putExtra("description",description);
-							intent.putExtra("city",city);
-							intent.putExtra("gps", gps);
-							Log.d("item", "afterintent");
-							startActivity(intent);
-
-						}
-
-					}
-
-				});
-
+				String item = (String) adapter.getItem(position);
+				Intent EventActivity = parseCom.getSpecigicEventByCriteria("name",item);
+				startActivity(EventActivity);
 			}
 		});
-
 
 	}
 
@@ -142,24 +68,4 @@ public class ListPreviosEvents extends Activity {
 		return true;
 	}
 
-
-	public void AdapterList()
-	{
-		adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,ListEvents);
-		Log.d("dddd", "ssss1111");
-		list.setAdapter(adapter);
-		Log.d("dddd", "ssss2222");
-	}
-
-	public ArrayAdapter<String> getListAdapter()
-	{
-		if (!adapter.isEmpty())
-			return adapter;
-		else
-		{
-			Log.d("Error","Error is: There is not exsisting adapter");
-			return null;
-		}
-
-	}
 }

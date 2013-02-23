@@ -42,7 +42,7 @@ public class Login extends Activity {
 		boolean userStatus = ref.getBoolean("signupStatus", false);
 
 	//if (userStatus){
-			this.startActivity(mainAcitvity);
+		this.startActivity(mainAcitvity);
 	//	}
 
 		/* Parse.com - Initialize */
