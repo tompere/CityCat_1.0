@@ -16,6 +16,8 @@ import com.parse.SaveCallback;
 
 public class CityCatParseCom {
 
+	// ??????????????????????
+
 	Context activity;
 	protected ArrayList<String> typesList;
 	protected ArrayList<String> categoryList;
