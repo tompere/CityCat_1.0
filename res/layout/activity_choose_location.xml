@@ -29,24 +29,24 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp" >
 
-        <ImageButton
+        <Button
             android:id="@+id/btn_sumbit_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="14dp"
-            android:background="@null"
-            android:src="@drawable/submit_location2" />
+            android:background="@drawable/rec_button_animation"
+            android:text="Set Location" />
 
-        <ImageButton
+        <Button
             android:id="@+id/refresh_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="false"
             android:layout_toLeftOf="@drawable/submit_location2"
-            android:background="@null"
-            android:src="@drawable/refresh" />
+            android:background="@drawable/refresh"
+            />
 
     </RelativeLayout>
 

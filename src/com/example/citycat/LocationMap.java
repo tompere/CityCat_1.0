@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,8 +29,8 @@ public class LocationMap extends Activity {
 	MapView mapView;
 	GoogleMap googleMap;
 	Intent goToPostEvent;
-	ImageButton btnSumbit;
-	ImageButton refresh;
+	Button btnSumbit;
+	Button refresh;
 	LatLng userLocation;
 	Context chooseLocationContext;
 	String city;
@@ -55,8 +56,8 @@ public class LocationMap extends Activity {
 		}
 
 		ClickHandler clickHandler = new ClickHandler();
-		refresh = (ImageButton)this.findViewById(R.id.refresh_button);
-		btnSumbit = (ImageButton)this.findViewById(R.id.btn_sumbit_location);	
+		refresh = (Button)this.findViewById(R.id.refresh_button);
+		btnSumbit = (Button)this.findViewById(R.id.btn_sumbit_location);	
 		refresh.setOnClickListener(clickHandler);
 
 		// Google map initialization */
@@ -115,30 +116,37 @@ public class LocationMap extends Activity {
 	/* Internal function to handle adding markers to map */
 	public Marker addMarkerToMap(LatLng latlng){
 		// get city (by name) according to GPS/Network coordinate, and add marker
-		try {
-			Geocoder gcd = new Geocoder(chooseLocationContext);
-			List<Address> addresses = gcd.getFromLocation(latlng.latitude, latlng.longitude, 1);
-			city = addresses.get(0).getLocality();
-			String address = "";
-			if (addresses.get(0).getMaxAddressLineIndex() > -1)
-			{
-				address = addresses.get(0).getAddressLine(0) + "; ";
-			}
-			return googleMap.addMarker(new MarkerOptions().position(latlng).title(address + city + "; " + addresses.get(0).getCountryName()));
+		String address = "";
+		int i = 0;
+		while (i < 3){
+			try {
+				Geocoder gcd = new Geocoder(chooseLocationContext);
+				List<Address> addresses = gcd.getFromLocation(latlng.latitude, latlng.longitude, 1);
+				city = addresses.get(0).getLocality();
+				if (addresses.get(0).getMaxAddressLineIndex() > -1)
+				{
+					address = addresses.get(0).getAddressLine(0) + "; ";
+				}
+				i = 3;
+				address = address + city + "; " + addresses.get(0).getCountryName();
 
-		} catch (Exception e) {
-			city = "[N/A]";
-			return googleMap.addMarker(new MarkerOptions().position(latlng).title("Not Available..."));
+			} catch (Exception e) {
+				city = "[N/A]";
+				if (i == 2) address = "Not Available...";
+				else i++;
+			}	
 		}
+		
+		return googleMap.addMarker(new MarkerOptions().position(latlng).title(address));
 	}
 
 	/* Internal handle to general events of clicks */
 	class ClickHandler implements View.OnClickListener {
 		public void onClick(View v)
 		{
-			if ((ImageButton)v == refresh) onRestart();
+			if ((Button)v == refresh) onRestart();
 
-			if ((ImageButton)v == btnSumbit)
+			if ((Button)v == btnSumbit)
 			{				
 				goToPostEvent.removeExtra("lat");
 				goToPostEvent.removeExtra("lng");

@@ -85,12 +85,14 @@ public class MainActivity extends Activity {
 			mSwitcher.setOnClickListener(new OnClickListener() {		
 				public void onClick(View v) {
 					switchCounter++;
-					mSwitcher.setCurrentText(hotEvents.get(hotEventCounter()));
+					if (hotEvents.size() == 0) mSwitcher.setCurrentText("No Hot Events...");
+					else mSwitcher.setCurrentText(hotEvents.get(hotEventCounter()));
 				}
 			});
 			// set long click listener for seeing event details
 			mSwitcher.setOnLongClickListener(new OnLongClickListener() {		
 				public boolean onLongClick(View arg0) {
+					if (hotEvents.size() == 0) return false;
 					String eventName = hotEvents.get(hotEventCounter()).split(", ")[0];
 					startActivity(parseCom.getSpecigicEventByCriteria("name",eventName,false));
 					return false;

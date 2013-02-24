@@ -2,8 +2,8 @@
     android:id="@+id/ScrollView"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:layout_marginBottom="10dp"
     android:fillViewport="false" >
-
 
 	<LinearLayout
 	   
@@ -32,7 +32,7 @@
 	        android:clickable="false"
 	        android:orientation="horizontal"
 	        android:paddingBottom="10dp" >
-
+
 	        <TextView
 	            android:id="@+id/TextView_Name"
 	            android:layout_width="wrap_content"
@@ -43,8 +43,8 @@
 	            android:paddingRight="10dp"
 	            android:paddingTop="10dp"
 	            android:text="Name"
-	            android:textSize="15dp" />
-
+	            android:textSize="15dp"
+	            android:textStyle="bold" />
 
 	        <TextView
 	            android:id="@+id/event_name_user"
@@ -67,8 +67,7 @@
 	        android:clickable="false"
 	        android:orientation="horizontal"
 	        android:paddingBottom="10dp" >
-
-
+
 	        <TextView
 	            android:id="@+id/TextView_City"
 	            android:layout_width="wrap_content"
@@ -79,8 +78,8 @@
 	            android:paddingRight="10dp"
 	            android:paddingTop="10dp"
 	            android:text="City"
-	            android:textSize="15dp" />
-
+	            android:textSize="15dp"
+	            android:textStyle="bold" />
 
 	        <TextView
 	            android:id="@+id/event_city_user"
@@ -102,7 +101,7 @@
 	        android:clickable="false"
 	        android:orientation="horizontal"
 	        android:paddingBottom="10dp" >
-
+
 	        <TextView
 	            android:id="@+id/TextView_Type"
 	            android:layout_width="wrap_content"
@@ -113,7 +112,8 @@
 	            android:paddingRight="10dp"
 	            android:paddingTop="10dp"
 	            android:text="Type"
-	            android:textSize="15dp" />
+	            android:textSize="15dp"
+	            android:textStyle="bold" />
 
 			<TextView
 	            android:id="@+id/event_type_user"
@@ -134,7 +134,7 @@
 	        android:clickable="false"
 	        android:orientation="horizontal"
 	        android:paddingBottom="10dp" >
-
+
 	        <TextView
 	            android:id="@+id/TextView_Category"
 	            android:layout_width="wrap_content"
@@ -145,7 +145,8 @@
 	            android:paddingRight="10dp"
 	            android:paddingTop="10dp"
 	            android:text="Category"
-	            android:textSize="15dp" />
+	            android:textSize="15dp"
+	            android:textStyle="bold" />
 
 	        <TextView
 	            android:id="@+id/event_category_user"
@@ -163,7 +164,7 @@
 	        android:clickable="false"
 	        android:orientation="horizontal"
 	        android:paddingBottom="10dp" >
-
+
 	        <TextView
 	            android:id="@+id/TextView_Date"
 	            android:layout_width="wrap_content"
@@ -174,8 +175,8 @@
 	            android:paddingRight="10dp"
 	            android:paddingTop="10dp"
 	            android:text="Date"
-	            android:textSize="15dp" />
-
+	            android:textSize="15dp"
+	            android:textStyle="bold" />
 
 	        <TextView
 	            android:id="@+id/event_Date_user"
@@ -195,7 +196,7 @@
 	        android:clickable="false"
 	        android:orientation="horizontal"
 	        android:paddingBottom="10dp" >
-
+
 	        <TextView
 	            android:id="@+id/TextView_Time"
 	            android:layout_width="wrap_content"
@@ -206,7 +207,8 @@
 	            android:paddingRight="10dp"
 	            android:paddingTop="10dp"
 	            android:text="Time"
-	            android:textSize="15dp" />
+	            android:textSize="15dp"
+	            android:textStyle="bold" />
 
 	             <TextView
 	            android:id="@+id/event_time_user"
@@ -229,7 +231,7 @@
 	        android:clickable="false"
 	        android:orientation="horizontal"
 	        android:paddingBottom="0dp" >
-
+
 	        <TextView
 	            android:id="@+id/TextView_desccription"
 	            android:layout_width="wrap_content"
@@ -239,7 +241,8 @@
 	            android:paddingRight="10dp"
 	            android:paddingTop="10dp"
 	            android:text="Description"
-	            android:textSize="15dp" />
+	            android:textSize="15dp"
+	            android:textStyle="bold" />
 
 	    </LinearLayout>
 
@@ -264,29 +267,37 @@
 	            android:paddingRight="20dp" />
 
 	    </LinearLayout>
-
+
 	    <LinearLayout
 	        android:id="@+id/line1"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="15dp"
 	        android:layout_weight="1"
 	        android:clickable="false"
 	        android:orientation="horizontal" >
-
-	        <Button
-	            android:id="@+id/Btn_gps"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="0.33"
-	            android:text="Show Location" />
-
+
+	         <Button
+	             android:id="@+id/Btn_gps"
+	             android:layout_width="wrap_content"
+	             android:layout_height="wrap_content"
+	             android:layout_marginLeft="10dp"
+	             android:layout_marginRight="5dp"
+	             android:layout_weight="0.5"
+	             android:background="@drawable/rec_button_animation"
+	             android:src="@drawable/map_app"
+	             android:text="Show Location" />
+
 	        <Button
 	            android:id="@+id/btn_Update"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_gravity="right"
-	            android:layout_weight="0.33"
-	            android:text="UPDATE" />
+	            android:layout_marginLeft="5dp"
+	            android:layout_marginRight="10dp"
+	            android:layout_weight="0.5"
+	            android:background="@drawable/rec_button_animation"
+	            android:text="Delete Event" />
 
 	    </LinearLayout>
 

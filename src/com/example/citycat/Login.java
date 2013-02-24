@@ -36,6 +36,8 @@ public class Login extends Activity {
 		thisContext = this;
 
 		mainAcitvity = new Intent(this, MainActivity.class);
+		
+		// TODO - check internet connection
 
 		// check user's sign up status
 		SharedPreferences ref = this.getSharedPreferences("user_details",MODE_PRIVATE);

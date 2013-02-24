@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -39,25 +41,39 @@ public class ListPreviosEvents extends Activity {
 		setContentView(R.layout.activity_previos_events);
 		list = (ListView) findViewById(R.id.list_previos_events);
 		ListEvents = new ArrayList<String>();
-		parseCom = new CityCatParseCom(this);
+		thisContext = this;
 		
-		SharedPreferences ref = getSharedPreferences("user_details",MODE_PRIVATE);
-		String usermame = ref.getString("username","unknown");
+		//Checking Network problems.this Activity works only if the Network is fine
+		ConnectivityManager connMgr = (ConnectivityManager) 
+				getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+		if (networkInfo != null && networkInfo.isConnected()) {
+			parseCom = new CityCatParseCom(this);
+
+			SharedPreferences ref = getSharedPreferences("user_details",MODE_PRIVATE);
+			String usermame = ref.getString("username","unknown");
+
+			// get all events and set into listView
+			ListEvents = parseCom.getAllEventByCriteria("publisher", usermame);	
+			adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ListEvents);
+			list.setAdapter(adapter);
+
+			// listener on events list - on click go to specific event screen
+			list.setOnItemClickListener(new OnItemClickListener() {
+				public void onItemClick (AdapterView<?> parent, View v, int position,
+						long id) {
+					String item = (String) adapter.getItem(position);
+					Intent EventActivity = parseCom.getSpecigicEventByCriteria("name",item,true);
+					startActivity(EventActivity);
+				}
+			});
+		}
 		
-		// get all events and set into listView
-		ListEvents = parseCom.getAllEventByCriteria("publisher", usermame);	
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ListEvents);
-		list.setAdapter(adapter);
-		
-		// listener on events list - on click go to specific event screen
-		list.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick (AdapterView<?> parent, View v, int position,
-					long id) {
-				String item = (String) adapter.getItem(position);
-				Intent EventActivity = parseCom.getSpecigicEventByCriteria("name",item,true);
-				startActivity(EventActivity);
-			}
-		});
+		else {
+	        AppAlertDialog.showNeutraAlertDialog(thisContext, "No NetWork Connection", 
+	        		"This Activity can not be displayed as a result of NetWork Problems", null);
+		}
 
 	}
 

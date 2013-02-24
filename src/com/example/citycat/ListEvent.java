@@ -1,30 +1,19 @@
 package com.example.citycat;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import android.app.Activity;
-import android.app.ActivityGroup;
 import android.content.Context;
-import android.location.Geocoder;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-
-import com.parse.FindCallback;
-import com.parse.Parse;
-import com.parse.ParseException;
-import com.parse.ParseGeoPoint;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import android.content.Intent;
 
 
 public class ListEvent extends Activity {
@@ -42,23 +31,35 @@ public class ListEvent extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_event);
 		list = (ListView) findViewById(R.id.list_events);
-		thisContext=this;
-		parseCom = new CityCatParseCom(this);
-		
-		// get all events and set into listView
-		ListEvents = parseCom.getAllEvents();		
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ListEvents);
-		list.setAdapter(adapter);
-		
-		// listener on events list - on click go to specific event screen
-		list.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick (AdapterView<?> parent, View v, int position,
-					long id) {
-				String item = (String) adapter.getItem(position);
-				Intent EventActivity = parseCom.getSpecigicEventByCriteria("name",item,false);
-				startActivity(EventActivity);
-			}
-		});
+		thisContext = this;
+
+		//Checking Network problems.this Activity works only if the Network is fine
+		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+		if (networkInfo != null && networkInfo.isConnected()) {
+			parseCom = new CityCatParseCom(this);
+
+			// get all events and set into listView
+			ListEvents = parseCom.getAllEvents();		
+			adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ListEvents);
+			list.setAdapter(adapter);
+
+			// listener on events list - on click go to specific event screen
+			list.setOnItemClickListener(new OnItemClickListener() {
+				public void onItemClick (AdapterView<?> parent, View v, int position,
+						long id) {
+					String item = (String) adapter.getItem(position);
+					Intent EventActivity = parseCom.getSpecigicEventByCriteria("name",item,false);
+					startActivity(EventActivity);
+				}
+			});	
+		}
+
+		else {
+			AppAlertDialog.showNeutraAlertDialog(thisContext, "No NetWork Connection", 
+					"This Activity can not be displayed as a result of NetWork Problems", null);
+		}
 
 	}
 

@@ -78,7 +78,7 @@ public class CityCatParseCom {
 			for (ParseObject obj : queryEvent.find()){
 				Date date = obj.getDate("date");
 				int Year = date.getYear()-100+2000;
-				String dateFormat = date.getDay() + 
+				String dateFormat = date.getDate() + 
 						"/" + date.getMonth() + 
 						"/" + Year;
 				eventList.add(obj.getString("name").toString()  + ", " + dateFormat);
@@ -111,7 +111,7 @@ public class CityCatParseCom {
 			Date date = e.getDate("date");
 			int Year = date.getYear()-100+2000;
 			int Month = date.getMonth()+1;
-			String dateFormat = date.getDay() + 
+			String dateFormat = date.getDate() + 
 					"/" + Month + 
 					"/" + Year;
 			ans.putExtra("dateFormat",dateFormat);
@@ -135,8 +135,8 @@ public class CityCatParseCom {
 			for (ParseObject e : query.find()){
 				Date date = e.getDate("date");
 				int Year = date.getYear()-100+2000;
-				String dateFormat = date.getDay() + 
-						"/" + date.getMonth() + 
+				String dateFormat = date.getDate() + 
+						"/" + (date.getMonth() + 1) + 
 						"/" + Year;
 				ans.add(e.getString("name").toString() + ", " + dateFormat);
 			}
@@ -146,6 +146,18 @@ public class CityCatParseCom {
 		//Log.d("CityCatParseCom",ans.size() + "");
 		return ans;
 
+	}
+	
+	/* delete a specific event from parse.com */
+	public void deleteEvent(String eventName){	
+		ParseQuery query = new ParseQuery("Event");
+		
+		query.whereEqualTo("name", eventName);
+		try{
+			ParseObject e = query.find().get(0);
+			e.deleteInBackground();
+			AppAlertDialog.showNeutraAlertDialog(activity, "Delete Event", "Success! This event was delete", null);
+		} catch (Exception e) {}
 	}
 	
 	/* Retrieve a list of all events from parse.com which are located next to the user location and happing today/tomorrow */
@@ -162,7 +174,7 @@ public class CityCatParseCom {
 				if ((currentDate.getYear() == eventDate.getYear()) 
 						&& (currentDate.getMonth() == eventDate.getMonth())
 						&& (today <= 1)){
-							String dateFormat = eventDate.getDay() + 
+							String dateFormat = eventDate.getDate() + 
 									"/" + eventDate.getMonth();
 							ans.add(e.getString("name").toString() + ", " + dateFormat  + "\n" + e.getString("city").toString());
 				}

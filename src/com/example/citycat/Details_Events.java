@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class Details_Events extends Activity {
@@ -40,8 +41,11 @@ public class Details_Events extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_details__events);
 		
+		// if (1 == 1) return;
+		// TODO
+		
 		// Initialize
-		thiscontext=this;
+		thiscontext = this;
 		Intent intent = getIntent();
 		
 		// retrieve bundle data (from events list)
@@ -91,7 +95,7 @@ public class Details_Events extends Activity {
 
 		clickHandler handler = new clickHandler();
 		btn_GPS.setOnClickListener(handler);
-		
+		btn_UPDATE.setOnClickListener(handler);
 		
 	}
 
@@ -101,19 +105,17 @@ public class Details_Events extends Activity {
 			if ((Button)v == btn_GPS)
 			{
 				//tom : change this constructor if u need to
-				Intent intent = new Intent(thiscontext,LocationMap.class); 
+				Intent intent = new Intent(thiscontext, LocationMap.class); 
 				intent.putExtra("gpsLatitude", bundle.getDouble("gpsLat"));
 				intent.putExtra("gpsLongtitude", bundle.getDouble("gpsLng"));
-				startActivity(intent);
-				
+				startActivity(intent);		
 			}
+			
 			if ((Button)v == btn_UPDATE)
 			{
-				Intent intent = new Intent(thiscontext,PostEvent.class); 
-				//information about the original call ( to know if it postEvent is for new or update event
-				intent.putExtra("IsUserEventsPost", IsUserEventsPost);
-				intent.putExtra("objectId", objectId);
-				startActivity(intent);
+				CityCatParseCom parse = new CityCatParseCom(thiscontext);
+				parse.deleteEvent(name);
+				startActivity(new Intent(thiscontext, MainActivity.class));
 			}
 				
 		}
