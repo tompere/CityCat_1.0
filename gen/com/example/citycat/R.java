@@ -28,8 +28,11 @@ public final class R {
         public static final int cool_cat_icon=0x7f020004;
         public static final int ic_action_search=0x7f020005;
         public static final int ic_launcher=0x7f020006;
-        public static final int refresh2=0x7f020007;
-        public static final int submit_location=0x7f020008;
+        public static final int rec_button=0x7f020007;
+        public static final int rec_button_animation=0x7f020008;
+        public static final int rec_button_green=0x7f020009;
+        public static final int refresh=0x7f02000a;
+        public static final int submit_location2=0x7f02000b;
     }
     public static final class id {
         public static final int Btn_gps=0x7f08001c;
@@ -52,9 +55,9 @@ public final class R {
         public static final int TextView_desccription=0x7f080019;
         public static final int YourEvent=0x7f080030;
         public static final int action_settings=0x7f080045;
-        public static final int btn_Back=0x7f08001d;
-        public static final int btn_Update=0x7f08001e;
-        public static final int btn_sumbit_location=0x7f080001;
+        public static final int btn_Back=0x7f08001e;
+        public static final int btn_Update=0x7f08001d;
+        public static final int btn_sumbit_location=0x7f080002;
         public static final int event_Date_user=0x7f080014;
         public static final int event_category=0x7f080038;
         public static final int event_category_user=0x7f080011;
@@ -90,7 +93,7 @@ public final class R {
         public static final int list_events_type=0x7f080023;
         public static final int list_previos_events=0x7f080042;
         public static final int location=0x7f08002e;
-        public static final int map=0x7f080002;
+        public static final int map=0x7f080001;
         public static final int menu_settings=0x7f080044;
         public static final int password_input=0x7f08002b;
         public static final int refresh_button=0x7f080003;

@@ -31,7 +31,6 @@ public class Details_Events extends Activity {
 	TextView tv_description;
 	TextView tv_city;
 	TextView tv_dateFormat;
-	Button btn_Back;
 	Button btn_GPS;
 	Button btn_UPDATE;
 	Context thiscontext;
@@ -65,7 +64,6 @@ public class Details_Events extends Activity {
 		tv_description=(TextView)findViewById(R.id.event_description_user);
 		tv_city=(TextView)findViewById(R.id.event_city_user);
 		tv_dateFormat=(TextView)findViewById(R.id.event_Date_user);
-		btn_Back=(Button)findViewById(R.id.btn_Back);
 		btn_GPS=(Button)findViewById(R.id.Btn_gps);
 		btn_UPDATE=(Button)findViewById(R.id.btn_Update);
 		
@@ -92,7 +90,6 @@ public class Details_Events extends Activity {
 		tv_time.setText(time);
 
 		clickHandler handler = new clickHandler();
-		btn_Back.setOnClickListener(handler);
 		btn_GPS.setOnClickListener(handler);
 		
 		
@@ -101,12 +98,6 @@ public class Details_Events extends Activity {
 	class clickHandler implements View.OnClickListener {
 		public void onClick(View v)
 		{
-			if  ( (Button)v == btn_Back)
-			{
-				Log.d("succeed","secceed");
-				Details_Events.this.finish();
-			}
-			
 			if ((Button)v == btn_GPS)
 			{
 				//tom : change this constructor if u need to

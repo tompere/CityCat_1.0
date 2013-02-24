@@ -78,6 +78,7 @@
         android:layout_below="@+id/tableLayout1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="19dp"
-        android:text="Sign Up" />
+        android:background="@drawable/rec_button_animation"
+        android:text="Sign In" />
 
 </RelativeLayout>

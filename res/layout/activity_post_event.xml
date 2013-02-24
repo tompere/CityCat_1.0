@@ -242,15 +242,16 @@
             android:orientation="vertical"
             android:paddingBottom="10dp"
             android:paddingTop="5dp" >
-
+
             <Button
                 android:id="@+id/event_post_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center|fill"
+                android:background="@drawable/rec_button_animation"
                 android:scrollHorizontally="true"
                 android:text="Post Event" />
+
         </LinearLayout>
     </LinearLayout>
 

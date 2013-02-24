@@ -272,20 +272,13 @@
 	        android:layout_weight="1"
 	        android:clickable="false"
 	        android:orientation="horizontal" >
-
+
 	        <Button
 	            android:id="@+id/Btn_gps"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.33"
-	            android:text="MAP" />
-
-	        <Button
-	            android:id="@+id/btn_Back"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="0.33"
-	            android:text="BACK" />
+	            android:text="Show Location" />
 
 	        <Button
 	            android:id="@+id/btn_Update"

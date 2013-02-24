@@ -1,6 +1,5 @@
 package com.example.citycat;
 import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -8,14 +7,17 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
+
 import com.parse.ParseGeoPoint;
 
 public class MainActivity extends Activity {
@@ -37,12 +39,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		context = this;
 		PreviosEvents = (Button) this.findViewById(R.id.YourEvent);
-		PreviosEvents.setVisibility(4);
 		postEvent = (Button) this.findViewById(R.id.location);
-		postEvent.setVisibility(4);
 		ChooseEvent = (Button) this.findViewById(R.id.ChooseEvent);
-		ChooseEvent.setVisibility(4);
-
 		goToPostEvent = new Intent(context, LocationMap.class);   
 		goToChooseEvent = new Intent(context, TabsEvents.class);
 		goToPreviousEvents = new Intent(context, ListPreviosEvents.class);
@@ -71,7 +69,7 @@ public class MainActivity extends Activity {
 		LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 		// make sure there's an available way to get position 
 		if (!locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-			String msg = "Your Network is't working.\nPlease turn it on";
+			String msg = "Your Network is't working.\nPlease turn it on.";
 			AppAlertDialog.showNeutraAlertDialog(this, "Location/Map Issue", msg, null);
 		}
 		else {
@@ -83,20 +81,25 @@ public class MainActivity extends Activity {
 			Animation out = AnimationUtils.loadAnimation(this,android.R.anim.fade_out);
 			mSwitcher.setInAnimation(in);
 			mSwitcher.setOutAnimation(out);
+			// set click listener for switching activities
 			mSwitcher.setOnClickListener(new OnClickListener() {		
 				public void onClick(View v) {
 					switchCounter++;
-					int numEvent = Math.min(hotEvents.size(), 5);
-					mSwitcher.setCurrentText(hotEvents.get(switchCounter % numEvent));
+					mSwitcher.setCurrentText(hotEvents.get(hotEventCounter()));
+				}
+			});
+			// set long click listener for seeing event details
+			mSwitcher.setOnLongClickListener(new OnLongClickListener() {		
+				public boolean onLongClick(View arg0) {
+					String eventName = hotEvents.get(hotEventCounter()).split(", ")[0];
+					startActivity(parseCom.getSpecigicEventByCriteria("name",eventName,false));
+					return false;
 				}
 			});
 		
 			clickHandler click = new clickHandler();
-			postEvent.setVisibility(0);
 			postEvent.setOnClickListener(click);
-			ChooseEvent.setVisibility(0);
 			ChooseEvent.setOnClickListener(click);
-			PreviosEvents.setVisibility(0);
 			PreviosEvents.setOnClickListener(click);	
 		}
 	}
@@ -105,6 +108,16 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
+	
+	/* internal function to track over current hot Event presented/clicked */
+	private int hotEventCounter(){
+		return switchCounter % Math.min(hotEvents.size(), 5);	
+	}
+	
+	/* override back button, so it will be disabled */
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    return false;    
+	 }
 
 	class clickHandler implements View.OnClickListener {
 		public void onClick(View v)
