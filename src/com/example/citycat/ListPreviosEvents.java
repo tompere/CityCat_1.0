@@ -54,7 +54,7 @@ public class ListPreviosEvents extends Activity {
 			public void onItemClick (AdapterView<?> parent, View v, int position,
 					long id) {
 				String item = (String) adapter.getItem(position);
-				Intent EventActivity = parseCom.getSpecigicEventByCriteria("name",item);
+				Intent EventActivity = parseCom.getSpecigicEventByCriteria("name",item,true);
 				startActivity(EventActivity);
 			}
 		});

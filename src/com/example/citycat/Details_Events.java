@@ -55,7 +55,7 @@ public class Details_Events extends Activity {
 		city = bundle.getString("city");
 		objectId = bundle.getString("objectId");
 		dateFormat = bundle.getString("dateFormat");
-		IsUserEvents =bundle.getBoolean("IsUserEvents");
+		IsUserEvents = bundle.getBoolean("IsUserEvents");
 		
 		// initialize all layout elements (buttons and text views)
 		tv_name=(TextView)findViewById(R.id.event_name_user);

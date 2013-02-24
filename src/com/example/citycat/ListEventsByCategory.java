@@ -63,7 +63,7 @@ public class ListEventsByCategory extends Activity {
 									long id) {
 								String item = (String) adapter.getItem(position);
 								//Log.d("ListCategory",item);
-								Intent EventActivity = parseCom.getSpecigicEventByCriteria("name",item);
+								Intent EventActivity = parseCom.getSpecigicEventByCriteria("name",item,false);
 								//Log.d("ListCategory",EventActivity.getAction());
 								startActivity(EventActivity);
 							}

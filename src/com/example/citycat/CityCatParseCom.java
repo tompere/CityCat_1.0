@@ -2,14 +2,11 @@ package com.example.citycat;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 
-import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
@@ -92,7 +89,7 @@ public class CityCatParseCom {
 	}
 	
 	/* Retrieve a specific event from parse.com according to its name */
-	public Intent getSpecigicEventByCriteria(String key, String value){
+	public Intent getSpecigicEventByCriteria(String key, String value, boolean isUpdate){
 		Intent ans = new Intent(activity, Details_Events.class);
 		ParseQuery query = new ParseQuery("Event");
 		// split the displayed name according to the fomar [name], [date]
@@ -121,7 +118,7 @@ public class CityCatParseCom {
 			String time = date.getHours() + ":" + date.getMinutes();
 			ans.putExtra("time",time);
 			// flag
-			ans.putExtra("IsUserEvents", false);					
+			ans.putExtra("IsUserEvents", isUpdate);					
 		
 		} catch (Exception e) { }
 
@@ -150,7 +147,32 @@ public class CityCatParseCom {
 		return ans;
 
 	}
+	
+	/* Retrieve a list of all events from parse.com which are located next to the user location and happing today/tomorrow */
+	public ArrayList<String> getNearByEvents(ParseGeoPoint point){
+		ArrayList<String> ans = new ArrayList<String>();
+		Date currentDate = new Date();
+		ParseQuery query = new ParseQuery("Event");
+		query.whereWithinKilometers("gps", point, 10);
+		query.whereGreaterThan("date", currentDate);
+		try{
+			for (ParseObject e : query.find()){			
+				Date eventDate = e.getDate("date");
+				int today = Math.abs(currentDate.getDate() - eventDate.getDate());
+				if ((currentDate.getYear() == eventDate.getYear()) 
+						&& (currentDate.getMonth() == eventDate.getMonth())
+						&& (today <= 1)){
+							String dateFormat = eventDate.getDay() + 
+									"/" + eventDate.getMonth();
+							ans.add(e.getString("name").toString() + ", " + dateFormat  + "\n" + e.getString("city").toString());
+				}
+			}
 
+		} catch (Exception e) {}
+
+		return ans;
+	}
+	
 	public static String[] getCategoriesSharedPref(Context cntxt){
 		SharedPreferences ref = cntxt.getSharedPreferences("local_parseCom",0);
 		return ref.getString("events_categories", "").split(";"); 
